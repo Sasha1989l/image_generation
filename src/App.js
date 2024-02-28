@@ -1,64 +1,38 @@
 import './App.css';
-import {Button, Card, InputGroup, Form, FloatingLabel, ToastContainer, Toast} from "react-bootstrap";
-import {useState} from "react";
-import {EdenAiService} from "./API/EdenAiService";
+import Generation from "./pages/Generation";
+import CenteredToast from "./components/UI/CenteredToast";
+import React, {useState} from "react";
+import {AppContext} from "./context";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Filters from "./pages/Filters";
+import Save from "./pages/Save";
 
 
 function App() {
-  const [prompt, setPrompt] = useState('')
-  const [image, setImage] = useState('https://eis.clientsimple.ru/upload/iblock/353/b0w2diy92mr6m409b1qsvc2l5gjjz2pp.jpg')
-  const [isLoading, setIsLoading] = useState(false)
-  const [showToast, setShowToast] = useState(false);
-
-  const generate_image = async () => {
-    if (!prompt){
-      setShowToast(true)
-      return
-    }
-
-    setIsLoading(true)
-
-    let edenAiApi= new EdenAiService(process.env.REACT_APP_EDENAI_API_KEY)
-    let data = await edenAiApi.generate(prompt, 512, 512)
-    // let image_url = data?.replicate?.items[0]?.image_resource_url
-
-    let base64String = data?.replicate?.items[0]?.image
-    const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '')
-
-    setImage(`data:image/png;base64,${base64Data}`)
-    setIsLoading(false)
-  }
+  const [toastText, setToastText] = useState('')
+  const [showToast, setShowToast] = useState(false)
+  const [imageBase64, setImageBase64] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
 
   return (
-    <div className="App d-flex align-items-center justify-content-center" style={{'min-height': '100vh'}}>
-      <Card style={{ width: '25rem' }}>
-        <Card.Img variant="top" src={image} />
-        <Card.Body className="text-center">
-          <InputGroup className="mb-3">
-            <FloatingLabel label="Промпт">
-              <Form.Control as="textarea"
-                            aria-label="Prompt"
-                            style={{ height: '150px' }}
-                            value={prompt}
-                            onChange={(e) => {setPrompt(e.target.value)}}
-              />
-            </FloatingLabel>
-          </InputGroup>
-          <Button variant="primary"
-                  disabled={isLoading}
-                  onClick={ generate_image }
-          >
-            {isLoading ? 'Загрузка…' : 'Сгенерировать'}
-          </Button>
-        </Card.Body>
-      </Card>
-
-      <ToastContainer className="position-fixed top-0 start-50 translate-middle-x mb-2">
-        <Toast onClose={() => setShowToast(false)} show={showToast} delay={2000} autohide bg="dark">
-          <Toast.Body className="text-white">Введите промпт!!</Toast.Body>
-        </Toast>
-      </ToastContainer>
-    </div>
+    <AppContext.Provider value={{
+      toastText, setToastText,
+      showToast, setShowToast,
+      imageBase64, setImageBase64,
+      imageUrl, setImageUrl
+    }}>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Generation />} />
+            <Route path="/filters" element={<Filters />} />
+            <Route path="/save" element={<Save />} />
+            <Route path="*" element={<Generation />} />
+          </Routes>
+        </BrowserRouter>
+        <CenteredToast showToast={showToast} text={toastText} setShowToast={setShowToast}/>
+      </div>
+    </AppContext.Provider>
   );
 }
 
