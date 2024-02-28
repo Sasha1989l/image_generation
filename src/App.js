@@ -1,6 +1,6 @@
 import './App.css';
 import {Button, Card, InputGroup, Form, FloatingLabel, ToastContainer, Toast} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {EdenAiService} from "./API/EdenAiService";
 
 
@@ -30,8 +30,8 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Card style={{ width: '25rem' }} className="mx-auto my-3">
+    <div className="App d-flex align-items-center justify-content-center" style={{'min-height': '100vh'}}>
+      <Card style={{ width: '25rem' }}>
         <Card.Img variant="top" src={image} />
         <Card.Body className="text-center">
           <InputGroup className="mb-3">
