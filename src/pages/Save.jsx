@@ -19,8 +19,8 @@ const Save = () => {
     }
   }, []);
 
-  const [saveImage, isImageSaving, getSaveError] = useFetching(async () => {
-    const diskYaService = new DiskYaService(yandexToken);
+  const [saveImage, isImageSaving, getSaveError] = useFetching(async (token) => {
+    const diskYaService = new DiskYaService(token);
 
     // Получаем URL для загрузки на указанную папку
     let file_name = getNameFromUrl(initialImage, 'png')
@@ -63,7 +63,7 @@ const Save = () => {
   }, [])
 
   const save_img = async () => {
-    await saveImage()
+    await saveImage(yandexToken)
   }
 
   return (
