@@ -6,6 +6,7 @@ import {AppContext} from "./context";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Filters from "./pages/Filters";
 import Save from "./pages/Save";
+import GetToken from "./pages/GetToken";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         response_type: 'token',
         redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/save/`
       },
-        `${process.env.REACT_APP_CURRENT_URL}/getToken/`,
+        `${process.env.REACT_APP_CURRENT_URL}/yandexToken/`,
       {
         view: "button",
         parentId: "yandexAuth",
@@ -50,6 +51,7 @@ function App() {
             <Route path="/" element={<Generation />} />
             <Route path="/filters" element={<Filters />} />
             <Route path="/save" element={<Save />} />
+            <Route path="/yandexToken" element={<GetToken />} />
             <Route path="*" element={<Generation />} />
           </Routes>
         </BrowserRouter>
