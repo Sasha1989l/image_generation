@@ -20,9 +20,9 @@ function App() {
       {
         client_id: process.env.REACT_APP_CLIENT_ID_YANDEX_API_KEY,
         response_type: 'token',
-        redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/save/`
+        redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/yandexToken/`
       },
-        `${process.env.REACT_APP_CURRENT_URL}/yandexToken/`,
+        `${process.env.REACT_APP_CURRENT_URL}`,
       {
         view: "button",
         parentId: "yandexAuth",
@@ -33,8 +33,8 @@ function App() {
         buttonIcon: 'ya',
       }
       ).then(({handler}) => handler())
-      .then(data => console.log('Сообщение с токеном', data))
-      .catch(error => console.log('Обработка ошибки', error))
+      .then(data => alert(`Сообщение с токеном ${data}`))
+      .catch(error => alert(`Обработка ошибки ${error}`))
   }, [])
 
 
