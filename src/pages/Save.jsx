@@ -57,8 +57,13 @@ const Save = () => {
         buttonBorderRadius: "22",
         buttonIcon: 'ya',
       }
-    ).then(({handler}) => handler())
-      .then((data) => {console.log(`Сообщение с токеном ${data}`)})
+    ).then(({handler}) => {
+      handler()
+    })
+      .then((data) => {
+        window.dispatchEvent(new Event("storage"));
+        console.log(`Сообщение с токеном ${data}`)
+      })
       .catch(error => console.log(`Обработка ошибки ${error}`))
   }, [])
 
