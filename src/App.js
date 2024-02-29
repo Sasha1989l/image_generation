@@ -22,11 +22,9 @@ function App() {
       setYandexToken(accessToken)
     }
 
-    window.onstorage = (event) => {
-      console.log(event)
+    window.onstorage = () => {
       let accessToken = localStorage.getItem('yandexToken')
       setYandexToken(accessToken)
-      console.log('Change localstorage')
     }
   }, [])
 
