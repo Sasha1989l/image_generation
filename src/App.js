@@ -1,7 +1,7 @@
 import './App.css';
 import Generation from "./pages/Generation";
 import CenteredToast from "./components/UI/CenteredToast";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {AppContext} from "./context";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Filters from "./pages/Filters";
@@ -11,15 +11,38 @@ import Save from "./pages/Save";
 function App() {
   const [toastText, setToastText] = useState('')
   const [showToast, setShowToast] = useState(false)
-  const [imageBase64, setImageBase64] = useState('')
-  const [imageUrl, setImageUrl] = useState('')
+  const [initialImage, setInitialImage] = useState('')
+  const [currentImage, setCurrentImage] = useState('')
+
+  useEffect(() => {
+      window.YaAuthSuggest.init(
+      {
+        client_id: process.env.REACT_APP_CLIENT_ID_YANDEX_API_KEY,
+        response_type: 'token',
+        redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/save/`
+      },
+        `${process.env.REACT_APP_CURRENT_URL}/getToken/`,
+      {
+        view: "button",
+        parentId: "yandexAuth",
+        buttonSize: 'xs',
+        buttonView: 'main',
+        buttonTheme: 'light',
+        buttonBorderRadius: "22",
+        buttonIcon: 'ya',
+      }
+      ).then(({handler}) => handler())
+      .then(data => console.log('Сообщение с токеном', data))
+      .catch(error => console.log('Обработка ошибки', error))
+  }, [])
+
 
   return (
     <AppContext.Provider value={{
       toastText, setToastText,
       showToast, setShowToast,
-      imageBase64, setImageBase64,
-      imageUrl, setImageUrl
+      initialImage, setInitialImage,
+      currentImage, setCurrentImage
     }}>
       <div className="App">
         <BrowserRouter>

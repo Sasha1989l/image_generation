@@ -7,7 +7,6 @@ export class EdenAiService {
 
   async generate(prompt, width = 1024, height = 1024){
     const options = {
-      method: "POST",
       url: "https://api.edenai.run/v2/image/generation",
       headers: {
         authorization: `Bearer ${this.apiKey}`,
@@ -27,6 +26,4 @@ export class EdenAiService {
     });
     return response.data
   }
-
-
 }

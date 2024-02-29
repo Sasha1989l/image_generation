@@ -7,19 +7,18 @@ import {useFetching} from "../hooks/useFetching";
 import {Link} from "react-router-dom";
 
 const Generation = () => {
-  const [prompt, setPrompt] = useState('')
+  const { setShowToast, setToastText, initialImage, currentImage, setInitialImage, setCurrentImage } = useContext(AppContext);
 
-  const {
-    setShowToast, setToastText, setImageUrl,
-    imageBase64, setImageBase64
-  } = useContext(AppContext);
+  const [prompt, setPrompt] = useState('')
+  const [imageBase64, setImageBase64] = useState('');
 
   const [getImage, isImageLoading, getImageError] = useFetching(async () => {
     let edenAiApi= new EdenAiService(process.env.REACT_APP_EDENAI_API_KEY)
     let data = await edenAiApi.generate(prompt, 512, 512)
 
     let image_url = data?.replicate?.items[0]?.image_resource_url
-    setImageUrl(image_url)
+    setInitialImage(image_url)
+    setCurrentImage(image_url)
 
     let base64String = data?.replicate?.items[0]?.image
     const base64Data = base64String.replace(/^data:image\/\w+;base64,/, '')
@@ -46,7 +45,7 @@ const Generation = () => {
 
   return (
     <>
-      <ImageCardView image={imageBase64}>
+      <ImageCardView image={imageBase64 ? imageBase64 : currentImage }>
         <InputGroup className="mb-3">
           <FloatingLabel label="Промпт">
             <Form.Control as="textarea"
@@ -58,6 +57,7 @@ const Generation = () => {
           </FloatingLabel>
         </InputGroup>
         <Button variant="primary"
+                size="sm"
                 disabled={isImageLoading}
                 onClick={ generate_image }
                 className='mx-2'
@@ -66,10 +66,10 @@ const Generation = () => {
             <span><span className="spinner-border spinner-border-sm" aria-hidden="true"></span> Загрузка</span>
             : 'Сгенерировать'}
         </Button>
-        { imageBase64 &&
-          <Button variant="primary" as={Link} to="/filters">Фильтры</Button>
+        { initialImage &&
+          <Button variant="primary" size="sm" as={Link} to="/filters">Фильтры</Button>
         }
-
+        <div id="yandexAuth"></div>
       </ImageCardView>
     </>
   );
