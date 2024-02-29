@@ -38,10 +38,7 @@ function App() {
         buttonBorderRadius: "22",
         buttonIcon: 'ya',
       }
-      ).then((data) => {
-        console.log(data)
-        data.handler()
-      })
+      ).then(({handler}) => handler())
       .then((data) => {console.log(data)})
       .catch(error => console.log(`Обработка ошибки ${error}`))
   }, [])
