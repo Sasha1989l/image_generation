@@ -38,9 +38,9 @@ function App() {
         buttonBorderRadius: "22",
         buttonIcon: 'ya',
       }
-      ).then(({handler}) => {
-        console.log(handler)
-        return handler()
+      ).then((data) => {
+        console.log(data)
+        return data.handler()
       })
       .then(data => console.log(`Сообщение с токеном ${data}`))
       .catch(error => console.log(`Обработка ошибки ${error}`))
