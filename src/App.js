@@ -35,8 +35,8 @@ function App() {
         buttonIcon: 'ya',
       }
       ).then(({handler}) => handler())
-      .then(data => console.log(`Сообщение с токеном ${data}`))
-      .catch(error => console.log(`Обработка ошибки ${error}`))
+      .then(data => alert(`Сообщение с токеном ${data}`))
+      .catch(error => alert(`Обработка ошибки ${error}`))
   }, [])
 
 
