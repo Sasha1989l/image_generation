@@ -15,6 +15,10 @@ function App() {
   const [initialImage, setInitialImage] = useState('')
   const [currentImage, setCurrentImage] = useState('')
 
+  const handleScript = (handle)=> {
+    console.log(handle)
+  }
+
   useEffect(() => {
       alert('App')
 
@@ -34,7 +38,10 @@ function App() {
         buttonBorderRadius: "22",
         buttonIcon: 'ya',
       }
-      ).then(({handler}) => handler())
+      ).then(({handler}) => {
+        console.log(handler)
+        handler()
+      })
       .then(data => alert(`Сообщение с токеном ${data}`))
       .catch(error => alert(`Обработка ошибки ${error}`))
   }, [])
