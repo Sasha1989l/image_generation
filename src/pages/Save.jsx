@@ -75,10 +75,10 @@ const Save = () => {
     <div>
       <ImageCardView image={currentImage}>
         <Form.Group>
-          <Form.Label>Введите ссылку на папку на Yandex Disk</Form.Label>
+          <Form.Label>Введите путь к папке на Yandex Disk</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Пример: https://disk.yandex.ru/client/disk/folder_id"
+            placeholder="Пример: test"
             value={folderLink}
             onChange={(e) => setFolderLink(e.target.value)}
           />
@@ -94,13 +94,12 @@ const Save = () => {
               : 'Сохранить'}
           </Button>
         </Stack>
-        { yandexToken &&
-          <div>
-            <p>Вы авторизованы в Яндекс</p>
-            <Button variant="primary" size="sm" onClick={delete_yandex_token}>Сменить аккаунт</Button>
-          </div>
-        }
         <div id="yandexAuth" hidden={yandexToken}></div>
+        <div hidden={!yandexToken}>
+          <p>Вы авторизованы в Яндекс</p>
+          <Button variant="primary" size="sm" onClick={delete_yandex_token}>Сменить аккаунт</Button>
+        </div>
+
       </ImageCardView>
     </div>
   );
