@@ -94,13 +94,13 @@ const Save = () => {
               : 'Сохранить'}
           </Button>
         </Stack>
-        <div>
-          <div hidden={!yandexToken}>
+        { yandexToken &&
+          <div>
             <p>Вы авторизованы в Яндекс</p>
             <Button variant="primary" size="sm" onClick={delete_yandex_token}>Сменить аккаунт</Button>
           </div>
-          <div id="yandexAuth" hidden={yandexToken}></div>
-        </div>
+        }
+        <div id="yandexAuth" hidden={yandexToken}></div>
       </ImageCardView>
     </div>
   );
