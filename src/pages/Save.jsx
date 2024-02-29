@@ -9,7 +9,7 @@ import {useFetching} from "../hooks/useFetching";
 import {ArrowLeft} from "react-bootstrap-icons";
 
 const Save = () => {
-  const { setShowToast, setToastText, initialImage, currentImage } = useContext(AppContext);
+  const { setShowToast, setToastText, initialImage, currentImage, yandexToken } = useContext(AppContext);
   const [folderLink, setFolderLink] = useState('');
 
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Save = () => {
   }, []);
 
   const [saveImage, isImageSaving, getSaveError] = useFetching(async () => {
-    const diskYaService = new DiskYaService(process.env.REACT_APP_YANDEX_DISK_API_KEY);
+    const diskYaService = new DiskYaService(yandexToken);
 
     // Получаем URL для загрузки на указанную папку
     let file_name = getNameFromUrl(initialImage, 'png')
@@ -39,6 +39,28 @@ const Save = () => {
       setShowToast(true)
     }
   }, [getSaveError, isImageSaving]);
+
+  useEffect(() => {
+    window.YaAuthSuggest.init(
+      {
+        client_id: process.env.REACT_APP_CLIENT_ID_YANDEX_API_KEY,
+        response_type: 'token',
+        redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/yandexToken/`
+      },
+      `${process.env.REACT_APP_CURRENT_URL}`,
+      {
+        view: "button",
+        parentId: "yandexAuth",
+        buttonSize: 'xs',
+        buttonView: 'main',
+        buttonTheme: 'light',
+        buttonBorderRadius: "22",
+        buttonIcon: 'ya',
+      }
+    ).then(({handler}) => handler())
+      .then((data) => {console.log(`Сообщение с токеном ${data}`)})
+      .catch(error => console.log(`Обработка ошибки ${error}`))
+  }, [])
 
   const save_img = async () => {
     await saveImage()
@@ -67,7 +89,7 @@ const Save = () => {
               : 'Сохранить'}
           </Button>
         </Stack>
-        {/*<div id="yandexAuth"></div>*/}
+        <div id="yandexAuth"></div>
       </ImageCardView>
     </div>
   );

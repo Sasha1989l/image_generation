@@ -69,7 +69,6 @@ const Generation = () => {
         { initialImage &&
           <Button variant="primary" size="sm" as={Link} to="/filters">Фильтры</Button>
         }
-        <div id="yandexAuth"></div>
       </ImageCardView>
     </>
   );

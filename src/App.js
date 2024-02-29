@@ -14,42 +14,22 @@ function App() {
   const [showToast, setShowToast] = useState(false)
   const [initialImage, setInitialImage] = useState('')
   const [currentImage, setCurrentImage] = useState('')
-
-  const handleScript = (handle)=> {
-    console.log(handle)
-  }
+  const [yandexToken, setYandexToken] = useState('')
 
   useEffect(() => {
-      alert('App')
-
-      window.YaAuthSuggest.init(
-      {
-        client_id: process.env.REACT_APP_CLIENT_ID_YANDEX_API_KEY,
-        response_type: 'token',
-        redirect_uri: `${process.env.REACT_APP_CURRENT_URL}/yandexToken/`
-      },
-        `${process.env.REACT_APP_CURRENT_URL}`,
-      {
-        view: "button",
-        parentId: "yandexAuth",
-        buttonSize: 'xs',
-        buttonView: 'main',
-        buttonTheme: 'light',
-        buttonBorderRadius: "22",
-        buttonIcon: 'ya',
-      }
-      ).then(({handler}) => handler())
-      .then((data) => {console.log(data)})
-      .catch(error => console.log(`Обработка ошибки ${error}`))
+    if (localStorage.getItem('yandexToken')) {
+      let accessToken = localStorage.getItem('yandexToken')
+      setYandexToken(accessToken)
+    }
   }, [])
-
 
   return (
     <AppContext.Provider value={{
       toastText, setToastText,
       showToast, setShowToast,
       initialImage, setInitialImage,
-      currentImage, setCurrentImage
+      currentImage, setCurrentImage,
+      yandexToken, setYandexToken
     }}>
       <div className="App">
         <BrowserRouter>
