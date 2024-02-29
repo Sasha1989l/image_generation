@@ -40,7 +40,7 @@ function App() {
       }
       ).then((data) => {
         console.log(data)
-        return data.handler()
+        data.handler()
       })
       .then(data => console.log(`Сообщение с токеном ${data}`))
       .catch(error => console.log(`Обработка ошибки ${error}`))
