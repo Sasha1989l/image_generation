@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const GetToken = () => {
+  useEffect(() => {
+    alert('GetToken')
+  }, []);
+
   return (
     <div>
       Яндекс Токен

@@ -12,6 +12,10 @@ const Save = () => {
   const { setShowToast, setToastText, initialImage, currentImage } = useContext(AppContext);
   const [folderLink, setFolderLink] = useState('');
 
+  useEffect(()=>{
+    alert('Save')
+  }, [])
+
   const navigate = useNavigate();
   useEffect(() => {
     if(!initialImage){
