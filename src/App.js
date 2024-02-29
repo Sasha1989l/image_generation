@@ -16,6 +16,8 @@ function App() {
   const [currentImage, setCurrentImage] = useState('')
 
   useEffect(() => {
+      alert('App')
+
       window.YaAuthSuggest.init(
       {
         client_id: process.env.REACT_APP_CLIENT_ID_YANDEX_API_KEY,
