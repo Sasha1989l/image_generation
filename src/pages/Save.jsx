@@ -9,7 +9,7 @@ import {useFetching} from "../hooks/useFetching";
 import {ArrowLeft} from "react-bootstrap-icons";
 
 const Save = () => {
-  const { setShowToast, setToastText, initialImage, currentImage, yandexToken } = useContext(AppContext);
+  const { setShowToast, setToastText, initialImage, currentImage, yandexToken, setYandexToken } = useContext(AppContext);
   const [folderLink, setFolderLink] = useState('');
 
   const navigate = useNavigate();
@@ -66,6 +66,11 @@ const Save = () => {
     await saveImage(yandexToken)
   }
 
+  const delete_yandex_token = () => {
+    setYandexToken('')
+    localStorage.removeItem('yandexToken')
+  }
+
   return (
     <div>
       <ImageCardView image={currentImage}>
@@ -82,14 +87,19 @@ const Save = () => {
           <Button variant="primary" size="sm" as={Link} to="/filters"><ArrowLeft /></Button>
           <Button variant="primary"
                   size="sm"
-                  disabled={isImageSaving}
+                  disabled={isImageSaving || !yandexToken}
                   onClick={save_img}>
             {isImageSaving ?
               <span><span className="spinner-border spinner-border-sm" aria-hidden="true"></span> Загрузка</span>
               : 'Сохранить'}
           </Button>
         </Stack>
-        <div id="yandexAuth"></div>
+        <div hidden={!yandexToken}>
+          <p>Вы авторизованы в Яндекс</p>
+          <Button variant="primary" size="sm" onClick={delete_yandex_token}>Сменить аккаунт</Button>
+        </div>
+        <div id="yandexAuth" hidden={yandexToken}></div>
+
       </ImageCardView>
     </div>
   );
