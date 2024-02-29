@@ -42,7 +42,7 @@ function App() {
         console.log(data)
         data.handler()
       })
-      .then(data => console.log(`Сообщение с токеном ${data}`))
+      .then((data) => {console.log(data)})
       .catch(error => console.log(`Обработка ошибки ${error}`))
   }, [])
 
